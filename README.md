@@ -1,6 +1,6 @@
 # OB-Xd Community GPL
 
-This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and Standalone in the APPS folder. 
+This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and Standalone in the APPS folder. When you download the project move it to your Documents, the path to "Themes" lives there.
 
 ![](OB-Xd-GPL-Screenshot.png)
 
@@ -10,12 +10,13 @@ OB-Xd is based on the [Oberheim OB-X](https://wikipedia.org/wiki/Oberheim_OB-X).
 
 While not copying originals, some of the features were taken to a better point. Continuous blendable multimode filter (HP-Notch(BP)-HP in 12 dB mode and 4-1 pole in 24 dB mode). Also, like many synths of the OB-X's generation, the OB-Xd has no internal effects so its sounds and textures can be greatly enhanced by the use of additional processing like chorus, reverb, delay, etc.
 
-Thanks to [2Dat](https://github.com/2DaT/Obxd) for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product. Also thanks to [KVR artists for creating some amazing skins!](https://www.kvraudio.com/forum/viewtopic.php?f=1&t=471926)
+Thanks to [2Dat](https://github.com/2DaT/Obxd) for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product.
 
 # Building
 
-Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/JUCE/releases/tag/7.0.3).
+Currently there are Mac AU and Mac Standalone in the APPS folder.
 
+Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/JUCE/releases/tag/7.0.3). 
 
 # Copyright
 
