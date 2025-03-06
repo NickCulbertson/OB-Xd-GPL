@@ -1,9 +1,10 @@
 # OB-Xd Community GPL
+
+This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and Standalone in the APPS folder. 
+
 ![](https://www.discodsp.com/img/obxd20_ilkka_rosma.jpg)
 
 # About
-
-This is a community GPL 3.0 version of OB-Xd. Pull requests welcome!
 
 OB-Xd is based on the [Oberheim OB-X](https://wikipedia.org/wiki/Oberheim_OB-X). It attempts to recreate its sound and behavior, but as the original was very limited in some important ways a number of things were added or altered to the original design. OB-Xd was designed to sound as good and as rich as the original. It implements micro random detuning which is a big part of that sound.
 
@@ -22,10 +23,6 @@ Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/
 
 # Copyright
 
-The original author [2Dat](https://github.com/2DaT) granted discoDSP a OB-Xd private use license on December 2022.
-
 This repository and the source code is under GPL3 license.
 
-Files from Source > Images folder in this commit have Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0) license.
-
-Other images and applicable resources have all rights reserved and copyrighted to discoDSP (no copying, modifying, merging, selling, leasing, redistributing, assigning, or transferring, remove, alter, deface, overprint or otherwise obscure licensor patent, trademark, service mark or copyright, publish or distribute in any form of electronic or printed communication those materials without permission).
+The default theme in Resources, and in the screenshot above, was created by gitterdude.
