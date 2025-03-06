@@ -12,10 +12,6 @@ While not copying originals, some of the features were taken to a better point. 
 
 Thanks to [2Dat](https://github.com/2DaT/Obxd) for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product. Also thanks to [KVR artists for creating some amazing skins!](https://www.kvraudio.com/forum/viewtopic.php?f=1&t=471926)
 
-# Binaries
-
-Latest binaries can be downloaded at https://www.discodsp.com/obxd/
-
 # Building
 
 Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/JUCE/releases/tag/7.0.3).
