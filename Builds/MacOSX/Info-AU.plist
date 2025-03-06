@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>AudioComponents</key>
-	<array>
-		<dict>
-			<key>description</key>
-			<string>Emulation of famous OB-X, OB-Xa and OB-8 synths</string>
-			<key>factoryFunction</key>
-			<string>Factory</string>
-			<key>manufacturer</key>
-			<string>MBPX</string>
-			<key>name</key>
-			<string>OB-Xd</string>
-			<key>resourceUsage</key>
-			<dict>
-				<key>network.client</key>
-				<true/>
-				<key>temporary-exception.files.all.read-write</key>
-				<true/>
-			</dict>
-			<key>subtype</key>
-			<string>Obxd</string>
-			<key>type</key>
-			<string>aumu</string>
-			<key>version</key>
-			<integer>133888</integer>
-		</dict>
-	</array>
-	<key>CFBundleDisplayName</key>
-	<string>OB-Xd</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>Icon.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleName</key>
-	<string>OB-Xd</string>
-	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>2.11.0</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>2.11.0</string>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>NSHumanReadableCopyright</key>
-	<string>discoDSP</string>
-</dict>
+<plist>
+  <dict>
+    <key>CFBundleExecutable</key>
+    <string>${EXECUTABLE_NAME}</string>
+    <key>CFBundleIconFile</key>
+    <string>Icon.icns</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.mobypixel.Obxd</string>
+    <key>CFBundleName</key>
+    <string>OB-Xd</string>
+    <key>CFBundleDisplayName</key>
+    <string>OB-Xd</string>
+    <key>CFBundlePackageType</key>
+    <string>BNDL</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleShortVersionString</key>
+    <string>2.11.0</string>
+    <key>CFBundleVersion</key>
+    <string>2.11.0</string>
+    <key>NSHumanReadableCopyright</key>
+    <string></string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>AudioComponents</key>
+    <array>
+      <dict>
+        <key>name</key>
+        <string>Moby Pixel: OB-Xd-MP</string>
+        <key>description</key>
+        <string>Emulation of famous OB-X, OB-Xa and OB-8 synths</string>
+        <key>factoryFunction</key>
+        <string>Factory</string>
+        <key>manufacturer</key>
+        <string>MBPX</string>
+        <key>type</key>
+        <string>aumu</string>
+        <key>subtype</key>
+        <string>Obxd</string>
+        <key>version</key>
+        <integer>133888</integer>
+        <key>resourceUsage</key>
+        <dict>
+          <key>network.client</key>
+          <true/>
+          <key>temporary-exception.files.all.read-write</key>
+          <true/>
+        </dict>
+      </dict>
+    </array>
+  </dict>
 </plist>

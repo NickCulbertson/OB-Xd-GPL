@@ -41,22 +41,22 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "OB-Xd"
+ #define JucePlugin_Name                   "OB-Xd-MP"
 #endif
 #ifndef  JucePlugin_Desc
  #define JucePlugin_Desc                   "Emulation of famous OB-X, OB-Xa and OB-8 synths"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "discoDSP"
+ #define JucePlugin_Manufacturer           "Moby Pixel"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "https://www.discodsp.com/"
+ #define JucePlugin_ManufacturerWebsite    "www.yourcompany.com"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      "contactus@discodsp.com"
+ #define JucePlugin_ManufacturerEmail      ""
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x44445350
+ #define JucePlugin_ManufacturerCode       0x4d425058
 #endif
 #ifndef  JucePlugin_PluginCode
  #define JucePlugin_PluginCode             0x4f627864
@@ -110,10 +110,10 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.discoDSP.Obxd
+ #define JucePlugin_CFBundleIdentifier     com.mobypixel.Obxd
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.discodsp.obxd
+ #define JucePlugin_AAXIdentifier          com.mobypixel.obxd
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "discoDSP: OB-Xd"
+ #define JucePlugin_IAAName                "Moby Pixel: OB-Xd-MP"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.discoDSP.OBXd.factory"
+ #define JucePlugin_ARAFactoryID           "com.yourcompany.OBXd.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.discoDSP.OBXd.aradocumentarchive.2.11.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.yourcompany.OBXd.aradocumentarchive.2.11.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

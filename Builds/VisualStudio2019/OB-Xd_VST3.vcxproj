@@ -42,17 +42,21 @@
   </ImportGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <TargetExt>.vst3</TargetExt>
+    <TargetExt>.dll</TargetExt>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\VST3\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\VST3\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OB-Xd</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PostBuildEventUseInBuild>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(SolutionDir)$(Platform)\$(Configuration)\VST3\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(Platform)\$(Configuration)\VST3\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">OB-Xd</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -83,7 +87,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCE_MODAL_LOOPS_PERMITTED=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=2.11.0;JUCE_APP_VERSION_HEX=0x20b00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\OB-Xd.vst3</OutputFile>
+      <OutputFile>$(OutDir)\OB-Xd.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>libcmt.lib; msvcrt.lib;;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -99,8 +103,59 @@
     <Lib>
       <AdditionalDependencies>OB-Xd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PreBuildEvent>
+      <Command>if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;x86&quot; if defined PROCESSOR_ARCHITEW6432 (
+    echo : Warning: Toolchain configuration issue! You are using a 32-bit toolchain to compile a 64-bit target on a 64-bit system. This may cause problems with the build system. To resolve this, use the x64 version of MSBuild. You can invoke it directly at: &quot;&lt;VisualStudioPathHere&gt;/MSBuild/Current/Bin/amd64/MSBuild.exe&quot; Or, use the &quot;x64 Native Tools Command Prompt&quot; script.
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3&quot;
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\Contents\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3\Contents&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3\Contents&quot;
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win&quot;
+)
+</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%CommonProgramW6432%\VST3\$(TargetFileName)&quot;</Command>
+      <Command>copy /Y &quot;$(OutDir)\OB-Xd.dll&quot; &quot;$(OutDir)\OB-Xd.vst3\Contents\x86_64-win\OB-Xd.vst3&quot;
+set manifest_generated=0
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;ARM64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;AMD64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if %manifest_generated% equ 0 (
+    goto :_arch_mismatch
+)
+goto :_continue
+:_generate_manifest
+if exist &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot; (
+    del /s /q &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot;
+)
+if not exist &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\&quot; (
+    mkdir &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\&quot;
+)
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.11.0&quot; -path &quot;$(OutDir)/OB-Xd.vst3&quot; -output &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot;
+if %ERRORLEVEL% equ 0 (
+    echo : Info: Successfully generated a manifest for OB-Xd-MP
+    goto :_continue
+) else (
+    echo : Info: The manifest helper failed
+    goto :_continue
+)
+:_arch_mismatch
+echo : Info: VST3 manifest generation is disabled for OB-Xd-MP because a AMD64 manifest helper cannot run on a host system processor detected to be $(PROCESSOR_ARCHITECTURE).
+:_continue
+xcopy /E /H /K /R /Y /I &quot;$(OutDir)\OB-Xd.vst3&quot; &quot;%CommonProgramW6432%\VST3\OB-Xd.vst3\&quot;
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
@@ -131,7 +186,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCE_MODAL_LOOPS_PERMITTED=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=2.11.0;JUCE_APP_VERSION_HEX=0x20b00;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=1;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;JucePlugin_Build_LV2=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\OB-Xd.vst3</OutputFile>
+      <OutputFile>$(OutDir)\OB-Xd.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -150,8 +205,59 @@
     <Lib>
       <AdditionalDependencies>OB-Xd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PreBuildEvent>
+      <Command>if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;x86&quot; if defined PROCESSOR_ARCHITEW6432 (
+    echo : Warning: Toolchain configuration issue! You are using a 32-bit toolchain to compile a 64-bit target on a 64-bit system. This may cause problems with the build system. To resolve this, use the x64 version of MSBuild. You can invoke it directly at: &quot;&lt;VisualStudioPathHere&gt;/MSBuild/Current/Bin/amd64/MSBuild.exe&quot; Or, use the &quot;x64 Native Tools Command Prompt&quot; script.
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3&quot;
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\Contents\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3\Contents&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3\Contents&quot;
+)
+if not exist &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win\&quot; (
+    del /s /q &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win&quot;
+    mkdir &quot;$(OutDir)\\OB-Xd.vst3\Contents\x86_64-win&quot;
+)
+</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%CommonProgramW6432%\VST3\$(TargetFileName)&quot;</Command>
+      <Command>copy /Y &quot;$(OutDir)\OB-Xd.dll&quot; &quot;$(OutDir)\OB-Xd.vst3\Contents\x86_64-win\OB-Xd.vst3&quot;
+set manifest_generated=0
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;ARM64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if &quot;$(PROCESSOR_ARCHITECTURE)&quot; == &quot;AMD64&quot; if &quot;$(Platform)&quot; == &quot;x64&quot; (
+    call :_generate_manifest
+    set manifest_generated=1
+)
+if %manifest_generated% equ 0 (
+    goto :_arch_mismatch
+)
+goto :_continue
+:_generate_manifest
+if exist &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot; (
+    del /s /q &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot;
+)
+if not exist &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\&quot; (
+    mkdir &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\&quot;
+)
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;2.11.0&quot; -path &quot;$(OutDir)/OB-Xd.vst3&quot; -output &quot;$(OutDir)/OB-Xd.vst3\Contents\Resources\moduleinfo.json&quot;
+if %ERRORLEVEL% equ 0 (
+    echo : Info: Successfully generated a manifest for OB-Xd-MP
+    goto :_continue
+) else (
+    echo : Info: The manifest helper failed
+    goto :_continue
+)
+:_arch_mismatch
+echo : Info: VST3 manifest generation is disabled for OB-Xd-MP because a AMD64 manifest helper cannot run on a host system processor detected to be $(PROCESSOR_ARCHITECTURE).
+:_continue
+xcopy /E /H /K /R /Y /I &quot;$(OutDir)\OB-Xd.vst3&quot; &quot;%CommonProgramW6432%\VST3\OB-Xd.vst3\&quot;
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -171,5 +277,4 @@
     <ResourceCompile Include=".\resources.rc"/>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
-  <ImportGroup Label="ExtensionTargets"/>
 </Project>

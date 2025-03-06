@@ -15,9 +15,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OB-Xd - VST3", "OB-Xd_VST3.vcxproj", "{E0803901-F995-508D-889A-2F32579173C7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA} = {B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA}
+		{7357439B-0CA4-0D86-E8B1-8CBAA7020E58} = {7357439B-0CA4-0D86-E8B1-8CBAA7020E58}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OB-Xd - Shared Code", "OB-Xd_SharedCode.vcxproj", "{B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OB-Xd - VST3 Manifest Helper", "OB-Xd_VST3ManifestHelper.vcxproj", "{7357439B-0CA4-0D86-E8B1-8CBAA7020E58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +44,10 @@ Global
 		{B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA}.Debug|x64.Build.0 = Debug|x64
 		{B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA}.Release64|x64.ActiveCfg = Release64|x64
 		{B2C5F2C4-089C-97F8-FB42-5CE4A644F6DA}.Release64|x64.Build.0 = Release64|x64
+		{7357439B-0CA4-0D86-E8B1-8CBAA7020E58}.Debug|x64.ActiveCfg = Debug|x64
+		{7357439B-0CA4-0D86-E8B1-8CBAA7020E58}.Debug|x64.Build.0 = Debug|x64
+		{7357439B-0CA4-0D86-E8B1-8CBAA7020E58}.Release64|x64.ActiveCfg = Release64|x64
+		{7357439B-0CA4-0D86-E8B1-8CBAA7020E58}.Release64|x64.Build.0 = Release64|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,11 +48,15 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OB-Xd</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PostBuildEventUseInBuild>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(SolutionDir)$(Platform)\$(Configuration)\VST\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(Platform)\$(Configuration)\VST\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">OB-Xd</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">$(LibraryPath);$(SolutionDir)$(Platform)\$(Configuration)\Shared Code</LibraryPath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -100,7 +104,9 @@
       <AdditionalDependencies>OB-Xd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%ProgramW6432%\Steinberg\Vstplugins\$(TargetFileName)&quot;</Command>
+      <Command>mkdir &quot;%ProgramW6432%\Steinberg\Vstplugins&quot;
+copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%ProgramW6432%\Steinberg\Vstplugins\$(TargetFileName)&quot;
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
@@ -151,7 +157,9 @@
       <AdditionalDependencies>OB-Xd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%ProgramW6432%\Steinberg\Vstplugins\$(TargetFileName)&quot;</Command>
+      <Command>mkdir &quot;%ProgramW6432%\Steinberg\Vstplugins&quot;
+copy /Y &quot;$(OutDir)$(TargetFileName)&quot; &quot;%ProgramW6432%\Steinberg\Vstplugins\$(TargetFileName)&quot;
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -171,5 +179,4 @@
     <ResourceCompile Include=".\resources.rc"/>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
-  <ImportGroup Label="ExtensionTargets"/>
 </Project>

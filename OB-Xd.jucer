@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="mxW328" name="OB-Xd" projectType="audioplug" version="2.11.0"
-              bundleIdentifier="com.discoDSP.Obxd" includeBinaryInAppConfig="1"
-              pluginName="OB-Xd" pluginDesc="Emulation of famous OB-X, OB-Xa and OB-8 synths"
-              pluginManufacturer="discoDSP" pluginManufacturerCode="DDSP" pluginCode="Obxd"
-              pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
+              bundleIdentifier="com.mobypixel.Obxd" includeBinaryInAppConfig="1"
+              pluginName="OB-Xd-MP" pluginDesc="Emulation of famous OB-X, OB-Xa and OB-8 synths"
+              pluginManufacturer="Moby Pixel" pluginManufacturerCode="MBPX"
+              pluginCode="Obxd" pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
-              pluginAUExportPrefix="" pluginRTASCategory="2048" aaxIdentifier="com.discodsp.obxd"
-              companyName="discoDSP" companyWebsite="https://www.discodsp.com/"
+              pluginAUExportPrefix="" pluginRTASCategory="2048" aaxIdentifier="com.mobypixel.obxd"
               pluginIsMidiEffectPlugin="0" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               pluginFormats="buildAU,buildStandalone,buildVST,buildVST3" buildVST="1"
               buildVST3="1" buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0"
-              buildStandalone="1" enableIAA="0" jucerFormatVersion="1" companyCopyright="discoDSP"
-              companyEmail="contactus@discodsp.com" pluginAAXCategory="2048"
+              buildStandalone="1" enableIAA="0" jucerFormatVersion="1" pluginAAXCategory="2048"
               pluginVSTCategory="kPlugCategSynth" displaySplashScreen="1" pluginChannelConfigs="{0,2}"
               pluginAUMainType="'aumu'" pluginVST3Category="Synth">
   <MAINGROUP id="NZ3n4V" name="OB-Xd">
