@@ -15,9 +15,9 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "FileDescription",  "OB-Xd\0"
+      VALUE "FileDescription",  "OB-Xd-GPL\0"
       VALUE "FileVersion",  "2.11.0\0"
-      VALUE "ProductName",  "OB-Xd\0"
+      VALUE "ProductName",  "OB-Xd-GPL\0"
       VALUE "ProductVersion",  "2.11.0\0"
     END
   END

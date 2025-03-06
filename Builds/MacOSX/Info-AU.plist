@@ -10,9 +10,9 @@
     <key>CFBundleIdentifier</key>
     <string>com.mobypixel.Obxd</string>
     <key>CFBundleName</key>
-    <string>OB-Xd</string>
+    <string>OB-Xd-GPL</string>
     <key>CFBundleDisplayName</key>
-    <string>OB-Xd</string>
+    <string>OB-Xd-GPL</string>
     <key>CFBundlePackageType</key>
     <string>BNDL</string>
     <key>CFBundleSignature</key>
@@ -29,7 +29,7 @@
     <array>
       <dict>
         <key>name</key>
-        <string>Moby Pixel: OB-Xd-MP</string>
+        <string>Moby Pixel: OB-Xd-GPL</string>
         <key>description</key>
         <string>Emulation of famous OB-X, OB-Xa and OB-8 synths</string>
         <key>factoryFunction</key>

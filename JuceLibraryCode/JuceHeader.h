@@ -48,7 +48,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "OB-Xd";
+    const char* const  projectName    = "OB-Xd-GPL";
     const char* const  companyName    = "";
     const char* const  versionString  = "2.11.0";
     const int          versionNumber  = 0x20b00;

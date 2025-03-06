@@ -41,7 +41,7 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "OB-Xd-MP"
+ #define JucePlugin_Name                   "OB-Xd-GPL"
 #endif
 #ifndef  JucePlugin_Desc
  #define JucePlugin_Desc                   "Emulation of famous OB-X, OB-Xa and OB-8 synths"
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "Moby Pixel: OB-Xd-MP"
+ #define JucePlugin_IAAName                "Moby Pixel: OB-Xd-GPL"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.yourcompany.OBXd.factory"
+ #define JucePlugin_ARAFactoryID           "com.yourcompany.OBXdGPL.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.yourcompany.OBXd.aradocumentarchive.2.11.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.yourcompany.OBXdGPL.aradocumentarchive.2.11.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

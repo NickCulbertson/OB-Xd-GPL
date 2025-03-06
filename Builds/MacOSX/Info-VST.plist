@@ -10,9 +10,9 @@
     <key>CFBundleIdentifier</key>
     <string>com.mobypixel.Obxd</string>
     <key>CFBundleName</key>
-    <string>OB-Xd</string>
+    <string>OB-Xd-GPL</string>
     <key>CFBundleDisplayName</key>
-    <string>OB-Xd</string>
+    <string>OB-Xd-GPL</string>
     <key>CFBundlePackageType</key>
     <string>BNDL</string>
     <key>CFBundleSignature</key>
