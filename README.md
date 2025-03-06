@@ -4,6 +4,8 @@ This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and 
 
 ![](OB-Xd-GPL-Screenshot.png)
 
+The default theme in Resources, and in the screenshot above, was created by gitterdude.
+
 # About
 
 OB-Xd is based on the [Oberheim OB-X](https://wikipedia.org/wiki/Oberheim_OB-X). It attempts to recreate its sound and behavior, but as the original was very limited in some important ways a number of things were added or altered to the original design. OB-Xd was designed to sound as good and as rich as the original. It implements micro random detuning which is a big part of that sound.
@@ -21,5 +23,3 @@ Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/
 # Copyright
 
 This repository and the source code is under GPL3 license.
-
-The default theme in Resources, and in the screenshot above, was created by gitterdude.
