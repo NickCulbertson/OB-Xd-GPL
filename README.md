@@ -2,7 +2,7 @@
 
 This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and Standalone in the APPS folder. 
 
-![](https://www.discodsp.com/img/obxd20_ilkka_rosma.jpg)
+![](OB-Xd-GPL-Screenshot.png)
 
 # About
 
