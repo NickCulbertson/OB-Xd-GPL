@@ -1,7 +1,9 @@
-# discoDSP OB-Xd
+# OB-Xd Community GPL
 ![](https://www.discodsp.com/img/obxd20_ilkka_rosma.jpg)
 
 # About
+
+This is a community GPL 3.0 version of OB-Xd. Pull requests welcome!
 
 OB-Xd is based on the [Oberheim OB-X](https://wikipedia.org/wiki/Oberheim_OB-X). It attempts to recreate its sound and behavior, but as the original was very limited in some important ways a number of things were added or altered to the original design. OB-Xd was designed to sound as good and as rich as the original. It implements micro random detuning which is a big part of that sound.
 
