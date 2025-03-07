@@ -29,6 +29,6 @@ This repository and the source code is under GPL3 license.
 
 Files from Source > Images folder in this commit were created by discoDSP and have Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0) license.
 
-The Themes files in the Resources folder were created by gitterdude and have Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license.
+The Themes files in the Resources folder were created by gitterdude and have Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) license. The title was changed in the main image to add "OB-Xd Community GPL".
 
 The repository this is forked from is [discoDSP](https://github.com/reales/OB-Xd). The original author [2Dat](https://github.com/2DaT/Obxd) granted discoDSP an OB-Xd private use license on December 2022. Their updated versions of OB-Xd are available for free (personal) and paid (commercial) on the [discoDSP website](https://www.discodsp.com/obxd/).
