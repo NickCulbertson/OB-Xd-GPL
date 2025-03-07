@@ -4,7 +4,7 @@ This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and 
 
 ![](OB-Xd-GPL-Screenshot.png)
 
-The default theme in Resources, and in the screenshot above, was created by gitterdude.
+The default theme in Resources, and in the screenshot above, was created by [gitterdude](https://github.com/gitterdude).
 
 # About
 
