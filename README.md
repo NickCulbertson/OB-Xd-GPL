@@ -26,4 +26,6 @@ Source code can be compiled with [JUCE 7.0.3](https://github.com/juce-framework/
 
 This repository and the source code is under GPL3 license.
 
+Files from Source > Images folder in this commit have Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0) license.
+
 The repository this is forked from is [discoDSP](https://github.com/reales/OB-Xd). The original author [2Dat](https://github.com/2DaT/Obxd) granted discoDSP an OB-Xd private use license on December 2022. Their updated versions of OB-Xd are available for free (personal) and paid (commercial) on the [discoDSP website](https://www.discodsp.com/obxd/).
