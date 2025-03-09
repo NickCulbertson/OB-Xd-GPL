@@ -4,7 +4,7 @@ This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and 
 
 Special thanks to joeloftusdev's for CMake and cross-platform support. For VST 3 Windows builds check pauloesteban's [OB-Xx repo](https://github.com/pauloesteban/OB-Xx).
 
-**IMPORTANT!** When you download the project move it to your Documents folder, the path to "Themes" lives there.
+**IMPORTANT!** When you download the project, move it to your Documents folder. The path to "Themes" and "Banks" live there.
 
 ![](OB-Xd-GPL-Screenshot.png)
 
