@@ -11,7 +11,7 @@
 #pragma once
 
 //==============================================================================
-#include <JuceHeader.h>
+#include <juce_gui_basics/juce_gui_basics.h>
 class ObxdAudioProcessor;
 
 
@@ -21,7 +21,7 @@ class ObxdAudioProcessor;
 class ScalableComponent
 {
 public:
-    ~ScalableComponent();
+    virtual ~ScalableComponent();
     int getScaleInt();
     void setScaleFactor(float newScaleFactor, bool newIsHighResolutionDisplay);
     float getScaleImage();
@@ -71,15 +71,27 @@ public:
 
         
         #ifdef JUCE_MAC
-            return Font("Helvetica Neue", 18.0 * scaleFactor, Font::plain);
+        return {
+            FontOptions()
+                .withName("Helvetica Neue")
+                .withStyle("Regular")
+                .withHeight(18.0f * scaleFactor)};
         #endif
             
         #ifdef JUCE_WINDOWS
-            return Font("Arial", 18.0 * scaleFactor, Font::plain);
+        return {
+        FontOptions()
+            .withName("Arial")
+            .withStyle("Regular")
+            .withHeight(18.0f * scaleFactor)};
         #endif
 
         #ifdef JUCE_LINUX
-            return Font("DejaVu Sans", 18.0 * scaleFactor, Font::plain);
+        return {
+            FontOptions()
+                .withName("DejaVu Sans")
+                .withStyle("Regular")
+                .withHeight(18.0f * scaleFactor)};
         #endif
     }
  

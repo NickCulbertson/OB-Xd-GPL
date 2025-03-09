@@ -9,14 +9,15 @@
 */
 #include "../PluginProcessor.h"
 #include "ScaleComponent.h"
+#include "BinaryData.h"
 
 
 
 //==============================================================================
 ScalableComponent::ScalableComponent(ObxdAudioProcessor* owner_)
-    : scaleFactor(0.0f),
-	  isHighResolutionDisplay(false),
-        processor(owner_)
+    : processor(owner_),
+	  scaleFactor(0.0f),
+        isHighResolutionDisplay(false)
 {
     setScaleFactor(1.0f, false);
 }
@@ -95,7 +96,7 @@ int ScalableComponent::getScaleInt(){
 }
 
 Image ScalableComponent::getScaledImageFromCache(const String& imageName,
-													   float scaleFactor,
+													   float /*scaleFactor*/,
 													   bool isHighResolutionDisplay)
 {
     jassert(scaleFactor == 1.0f || scaleFactor == 1.5f || scaleFactor == 2.0f);

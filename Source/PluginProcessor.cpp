@@ -22,6 +22,8 @@ It contains the basic startup code for a Juce application.
 
 #ifdef __SSE2__
 #include <xmmintrin.h>
+
+#include <memory>
 #endif
 
 //==============================================================================
@@ -30,12 +32,12 @@ It contains the basic startup code for a Juce application.
 //==============================================================================
 AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
-    ObxdParams defaultParams;
-    std::vector<std::unique_ptr<AudioParameterFloat>> params;
+	std::vector<std::unique_ptr<AudioParameterFloat>> params;
     
     for (int i = 0; i < PARAM_COUNT; ++i)
     {
-        auto id           = ObxdAudioProcessor::getEngineParameterId (i);
+	    const ObxdParams defaultParams;
+	    auto id           = ObxdAudioProcessor::getEngineParameterId (i);
         auto name         = TRANS (id);
         auto range        = NormalisableRange<float> {0.0f, 1.0f};
         auto defaultValue = defaultParams.values[i];
@@ -54,10 +56,12 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
 //==============================================================================
 ObxdAudioProcessor::ObxdAudioProcessor()
-	: bindings()
-	, programs()
+	: AudioProcessor(BusesProperties()
+		.withOutput("Main", AudioChannelSet::stereo(), true)),
+programs()
+	, bindings()
 	, configLock("__" JucePlugin_Name "ConfigLock__")
-    , apvtState (*this, &undoManager, "PARAMETERS", createParameterLayout())
+	, apvtState (*this, &undoManager, "PARAMETERS", createParameterLayout())
 {
 	isHostAutomatedChange = true;
 	midiControlledParamSet = false;
@@ -65,35 +69,35 @@ ObxdAudioProcessor::ObxdAudioProcessor()
 	lastUsedParameter = 0;
 
 	synth.setSampleRate (44100);
-    
+
 	PropertiesFile::Options options;
 	options.applicationName = JucePlugin_Name;
 	options.storageFormat = PropertiesFile::storeAsXML;
 	options.millisecondsBeforeSaving = 2500;
 	options.processLock = &configLock;
-    config = std::unique_ptr<PropertiesFile> (new PropertiesFile (getDocumentFolder().getChildFile ("Skin.xml"), options));
-    showPresetBar = config->getBoolValue("presetnavigation");
-    gui_size = config->getIntValue("gui_size", 1);
-    tooltipBehavior = static_cast<Tooltip>(config->getIntValue("tooltip", 1));
+	config = std::make_unique<PropertiesFile>(getDocumentFolder().getChildFile("Skin.xml"), options);
+	showPresetBar = config->getBoolValue("presetnavigation");
+	gui_size = config->getIntValue("gui_size", 1);
+	tooltipBehavior = static_cast<Tooltip>(config->getIntValue("tooltip", 1));
 	currentSkin = config->containsKey("skin") ? config->getValue("skin") : "Ilkka Rosma Dark";
 	currentBank = "000 - FMR OB-Xa Patch Book";
 
 	scanAndUpdateBanks();
-    scanAndUpdateSkins();
-    initAllParams();
+	scanAndUpdateSkins();
+	initAllParams();
 
 	if (bankFiles.size() > 0)
 	{
 		loadFromFXBFile (bankFiles[0]);
 	}
-    
-    for (int i = 0; i < PARAM_COUNT; ++i)
-    {
-        apvtState.addParameterListener (getEngineParameterId (i), this);
-    }
-    
-    apvtState.state = ValueTree (JucePlugin_Name);
-    initMidi();
+
+	for (int i = 0; i < PARAM_COUNT; ++i)
+	{
+		apvtState.addParameterListener (getEngineParameterId (i), this);
+	}
+
+	apvtState.state = ValueTree (JucePlugin_Name);
+	initMidi();
 }
 
 ObxdAudioProcessor::~ObxdAudioProcessor()
@@ -128,12 +132,12 @@ const String ObxdAudioProcessor::getOutputChannelName (int channelIndex) const
 	return String (channelIndex + 1);
 }
 
-bool ObxdAudioProcessor::isInputChannelStereoPair (int index) const
+bool ObxdAudioProcessor::isInputChannelStereoPair (int /*index*/) const
 {
 	return true;
 }
 
-bool ObxdAudioProcessor::isOutputChannelStereoPair (int index) const
+bool ObxdAudioProcessor::isOutputChannelStereoPair (int /*index*/) const
 {
 	return true;
 }
@@ -227,130 +231,156 @@ void ObxdAudioProcessor::releaseResources()
 {
 }
 
-inline void ObxdAudioProcessor::processMidiPerSample (MidiBuffer::Iterator* iter, const int samplePos)
+
+inline void ObxdAudioProcessor::processMidiPerSample(MidiBufferIterator* iter, const MidiBuffer& midiBuffer, const int samplePos)
 {
-	while (getNextEvent (iter, samplePos))
-	{
-		if (midiMsg->isNoteOn())
-		{
-			synth.procNoteOn (midiMsg->getNoteNumber(), midiMsg->getFloatVelocity());
-		}
-		if (midiMsg->isNoteOff())
-		{
-			synth.procNoteOff (midiMsg->getNoteNumber());
-		}
-		if (midiMsg->isPitchWheel())
-		{
-			// [0..16383] center = 8192;
-			synth.procPitchWheel ((midiMsg->getPitchWheelValue() - 8192) / 8192.0f);
-		}
-		if (midiMsg->isController() && midiMsg->getControllerNumber() == 1)
+    while (getNextEvent(iter, midiBuffer, samplePos))
+    {
+        if (!midiMsg)
+            continue;
+
+        const auto size = midiMsg->getRawDataSize();
+        if (size < 1)
+            continue;
+
+        const auto* data = midiMsg->getRawData();
+        if (!data)
+            continue;
+
+        const auto status = data[0] & 0xF0;
+        if (status != 0x80 && status != 0x90 && status != 0xB0 &&
+            status != 0xC0 && status != 0xE0)
+            continue;
+
+        DBG("Valid Message: " << (int)midiMsg->getChannel() << " "
+            << (int)status << " "
+            << (size > 1 ? (int)data[1] : 0) << " "
+            << (size > 2 ? (int)data[2] : 0));
+
+        if (midiMsg->isNoteOn())
         {
-			synth.procModWheel (midiMsg->getControllerValue() / 127.0f);
+            synth.procNoteOn(midiMsg->getNoteNumber(), midiMsg->getFloatVelocity());
         }
-		if(midiMsg->isSustainPedalOn())
-		{
-			synth.sustainOn();
-		}
-		if(midiMsg->isSustainPedalOff() || midiMsg->isAllNotesOff()||midiMsg->isAllSoundOff())
-		{
-			synth.sustainOff();
-		}
-		if(midiMsg->isAllNotesOff())
-		{
-			synth.allNotesOff();
-		}
-		if(midiMsg->isAllSoundOff())
-		{
-			synth.allSoundOff();
+        else if (midiMsg->isNoteOff())
+        {
+            synth.procNoteOff(midiMsg->getNoteNumber());
         }
-        
-        DBG(" Message: " << midiMsg->getChannel() << " "<<midiMsg->getRawData()[0] << " "<< midiMsg->getRawData()[1] << " "<< midiMsg->getRawData()[2]);
-        
-        if (midiMsg->isProgramChange()){ // xC0
+        if (midiMsg->isPitchWheel())
+        {
+            synth.procPitchWheel((midiMsg->getPitchWheelValue() - 8192) / 8192.0f);
+        }
+        if (midiMsg->isController() && midiMsg->getControllerNumber() == 1)
+        {
+            synth.procModWheel(midiMsg->getControllerValue() / 127.0f);
+        }
+        if (midiMsg->isSustainPedalOff() || midiMsg->isAllNotesOff() || midiMsg->isAllSoundOff())
+        {
+            synth.sustainOff();
+        }
+        if (midiMsg->isAllNotesOff())
+        {
+            synth.allNotesOff();
+        }
+        if (midiMsg->isAllSoundOff())
+        {
+            synth.allSoundOff();
+        }
+
+        DBG(" Message: " << midiMsg->getChannel() << " "
+            << " " << ((size > 2) ? midiMsg->getRawData()[2] : 0));
+
+        if (midiMsg->isProgramChange())  // xC0
+        {
             setCurrentProgram(midiMsg->getProgramChangeNumber());
-            
-        } else
-        if (midiMsg->isController()) // xB0
+        }
+        else if (midiMsg->isController()) // xB0
         {
             lastMovedController = midiMsg->getControllerNumber();
-            if (programs.currentProgramPtr->values[MIDILEARN] > 0.5f){
+            if (programs.currentProgramPtr->values[MIDILEARN] > 0.5f)
+            {
                 midiControlledParamSet = true;
-                //bindings[lastMovedController] = lastUsedParameter;
                 bindings.updateCC(lastUsedParameter, lastMovedController);
                 File midi_file = getMidiFolder().getChildFile("Custom.xml");
                 bindings.saveFile(midi_file);
                 currentMidiPath = midi_file.getFullPathName();
-                
-                setEngineParameterValue (MIDILEARN, 0, true);
+
+                setEngineParameterValue(MIDILEARN, 0, true);
                 lastMovedController = 0;
                 lastUsedParameter = 0;
                 midiControlledParamSet = false;
-                
-                
             }
 
             if (bindings[lastMovedController] > 0)
             {
                 midiControlledParamSet = true;
-                setEngineParameterValue (bindings[lastMovedController],
-                                         midiMsg->getControllerValue() / 127.0f, true);
-                
-                setEngineParameterValue (MIDILEARN, 0, true);
+                setEngineParameterValue(bindings[lastMovedController],
+                                        midiMsg->getControllerValue() / 127.0f, true);
+
+                setEngineParameterValue(MIDILEARN, 0, true);
                 lastMovedController = 0;
                 lastUsedParameter = 0;
-
                 midiControlledParamSet = false;
             }
         }
-	}
+    }
 }
 
-bool ObxdAudioProcessor::getNextEvent (MidiBuffer::Iterator* iter, const int samplePos)
+bool ObxdAudioProcessor::getNextEvent(MidiBufferIterator* iter, const MidiBuffer& midiBuffer, const int samplePos)
 {
-	if (hasMidiMessage && midiEventPos <= samplePos)
+	if (iter == nullptr)
+		return false;
+
+	if (*iter == midiBuffer.end())
+		return false;
+
+	auto metadata = **iter;
+	if (metadata.samplePosition >= samplePos && metadata.getMessage().getRawDataSize() > 0)
 	{
-		*midiMsg = *nextMidi;
-		hasMidiMessage = iter->getNextEvent (*nextMidi, midiEventPos);
+		*midiMsg = metadata.getMessage();
+		midiEventPos = metadata.samplePosition;
+		++(*iter);
 		return true;
 	}
-    
-	return false;
+	else
+	{
+		++(*iter);
+		return getNextEvent(iter, midiBuffer, samplePos);
+	}
 }
 
-void ObxdAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void ObxdAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-	//SSE flags set
 #ifdef __SSE__
 	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
 #endif
-#ifdef __SSE2__
-	// _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
-#endif
-
-	MidiBuffer::Iterator ppp (midiMessages);
-	hasMidiMessage = ppp.getNextEvent (*nextMidi, midiEventPos);
 
 	int samplePos = 0;
-	int numSamples = buffer.getNumSamples();
-	float* channelData1 = buffer.getWritePointer (0);
-	float* channelData2 = buffer.getWritePointer (1);
+	const int numSamples = buffer.getNumSamples();
+	float* channelData1 = buffer.getWritePointer(0);
+    float* channelData2 = (buffer.getNumChannels() > 1) ? buffer.getWritePointer(1) : channelData1;
 
-	AudioPlayHead::CurrentPositionInfo pos;
-    
-    if (getPlayHead() != 0 && getPlayHead()->getCurrentPosition (pos))
-    {
-		synth.setPlayHead(pos.bpm, pos.ppqPosition);
-    }
+	if (auto* playHead = getPlayHead())
+	{
+		if (auto position = playHead->getPosition())
+		{
+			if (position->getBpm() && position->getPpqPosition())
+			{
+				synth.setPlayHead(*(position->getBpm()), *(position->getPpqPosition()));
+			}
+		}
+	}
+
+	auto it = midiMessages.begin();
+	hasMidiMessage = (it != midiMessages.end());
+	midiEventPos = 0;
 
 	while (samplePos < numSamples)
 	{
-		processMidiPerSample (&ppp, samplePos);
-		synth.processSample (channelData1+samplePos, channelData2+samplePos);
+		processMidiPerSample(&it, midiMessages, samplePos);
+		synth.processSample(channelData1 + samplePos, channelData2 + samplePos);
 		++samplePos;
 	}
 }
-
 //==============================================================================
 bool ObxdAudioProcessor::hasEditor() const
 {
@@ -360,6 +390,7 @@ bool ObxdAudioProcessor::hasEditor() const
 AudioProcessorEditor* ObxdAudioProcessor::createEditor()
 {
 	return new ObxdAudioProcessorEditor (*this);
+	//return new GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
@@ -420,20 +451,40 @@ void ObxdAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 		if (xprogs && xprogs->hasTagName(S("programs")))
 		{
 			int i = 0;
-			forEachXmlChildElement(*xprogs, e)
+			// forEachXmlChildElement(*xprogs, e)
+			// {
+			// 	bool newFormat = e->hasAttribute("voiceCount");
+			// 	programs.programs[i].setDefaultValues();
+   //
+			// 	for (int k = 0; k < PARAM_COUNT; ++k)
+			// 	{
+   //                  float value = 0.0;
+   //                  if (e->hasAttribute("Val_" + String(k))){
+   //                      value = float(e->getDoubleAttribute("Val_" + String(k), programs.programs[i].values[k]));
+   //                  } else {
+   //                      value = float(e->getDoubleAttribute(String(k), programs.programs[i].values[k]));
+   //                  }
+   //
+			// 		if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
+			// 		programs.programs[i].values[k] = value;
+			// 	}
+			for (auto* e : xprogs->getChildIterator())
 			{
 				bool newFormat = e->hasAttribute("voiceCount");
 				programs.programs[i].setDefaultValues();
 
 				for (int k = 0; k < PARAM_COUNT; ++k)
 				{
-                    float value = 0.0;
-                    if (e->hasAttribute("Val_" + String(k))){
-                        value = float(e->getDoubleAttribute("Val_" + String(k), programs.programs[i].values[k]));
-                    } else {
-                        value = float(e->getDoubleAttribute(String(k), programs.programs[i].values[k]));
-                    }
-                    
+					float value = 0.0;
+					if (e->hasAttribute("Val_" + String(k)))
+					{
+						value = float(e->getDoubleAttribute("Val_" + String(k), programs.programs[i].values[k]));
+					}
+					else
+					{
+						value = float(e->getDoubleAttribute(String(k), programs.programs[i].values[k]));
+					}
+
 					if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
 					programs.programs[i].values[k] = value;
 				}
@@ -587,7 +638,7 @@ void ObxdAudioProcessor::deletePreset(){
     //saveBank();
 }
 
-void ObxdAudioProcessor::newPreset(const String &name) {
+void ObxdAudioProcessor::newPreset(const String &/*name*/) {
     for (int i = 0; i < PROGRAMCOUNT; ++i)
     {
         if (programs.programs[i].name == "Default"){
@@ -799,25 +850,21 @@ void ObxdAudioProcessor::scanAndUpdateBanks()
 {
 	bankFiles.clear();
 
-	DirectoryIterator it (getBanksFolder(), false, "*.fxb", File::findFiles);
-	
-    while (it.next())
+	for (const auto& entry : RangedDirectoryIterator(getBanksFolder(), false, "*.fxb", File::findFiles))
 	{
-		bankFiles.addUsingDefaultSort (it.getFile());
-        DBG("Scan Banks: " << it.getFile().getFullPathName());
+		bankFiles.addUsingDefaultSort(entry.getFile());
+		DBG("Scan Banks: " << entry.getFile().getFullPathName());
 	}
 }
 
 void ObxdAudioProcessor::scanAndUpdateSkins()
 {
-    skinFiles.clearQuick();
-    DirectoryIterator it (getSkinFolder(), false, "*", File::findDirectories);
-    
-    while (it.next())
-    {
-        skinFiles.addUsingDefaultSort (it.getFile());
-    }
-    
+	skinFiles.clearQuick();
+
+	for (const auto& entry : RangedDirectoryIterator(getSkinFolder(), false, "*", File::findDirectories))
+	{
+		skinFiles.addUsingDefaultSort(entry.getFile());
+	}
 }
 
 const Array<File>& ObxdAudioProcessor::getBankFiles() const

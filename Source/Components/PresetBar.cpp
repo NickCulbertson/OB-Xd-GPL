@@ -39,15 +39,27 @@ PresetBar::PresetBar (ObxdAudioProcessorEditor &gui)
     addAndMakeVisible (presetNameLb.get());
 
 #ifdef JUCE_MAC
-    presetNameLb->setFont (juce::Font ("Helvetica Neue", 16.00f, juce::Font::plain).withTypefaceStyle ("Bold"));
+    presetNameLb->setFont (Font(
+        FontOptions()
+            .withName("Helvetica Neue")
+            .withStyle("Bold")
+            .withHeight(16.0f)));
 #endif
             
 #ifdef JUCE_WINDOWS
-    presetNameLb->setFont (juce::Font ("Arial", 16.00f, juce::Font::plain).withTypefaceStyle ("Bold"));
+    presetNameLb->setFont (Font(
+            FontOptions()
+                .withName("Arial")
+                .withStyle("Bold")
+                .withHeight(16.0f)));
 #endif
 
 #ifdef JUCE_LINUX
-    presetNameLb->setFont (juce::Font ("DejaVu Sans", 16.00f, juce::Font::plain).withTypefaceStyle ("Bold"));
+    presetNameLb->setFont (Font(
+        FontOptions()
+            .withName("DejaVu Sans")
+            .withStyle("Bold")
+            .withHeight(16.0f)));
 #endif
 
     presetNameLb->setJustificationType (juce::Justification::centred);
