@@ -1,12 +1,12 @@
 # OB-Xd Community GPL
 
+![](OB-Xd-GPL-Screenshot.png)
+
 This is a community GPL 3.0 version of OB-Xd. Pull requests welcome! Mac AU and Standalone in the APPS folder and more on the way or available through CMake. 
 
-Special thanks to joeloftusdev's for CMake and cross-platform support. For VST 3 Windows builds check pauloesteban's [OB-Xx repo](https://github.com/pauloesteban/OB-Xx).
+Special thanks to joeloftusdev's [OB-Xd repo](https://github.com/joeloftusdev/OB-Xd) for CMake and cross-platform support. For VST 3 Windows builds check pauloesteban's [OB-Xx repo](https://github.com/pauloesteban/OB-Xx).
 
 **IMPORTANT!** When you download the project, move it to your Documents folder. The path to "Themes" and "Banks" live there.
-
-![](OB-Xd-GPL-Screenshot.png)
 
 The default theme in Resources, and in the screenshot above, was created by [gitterdude](https://github.com/gitterdude).
 
